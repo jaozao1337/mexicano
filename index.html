@@ -82,12 +82,11 @@
     <div class="container mx-auto max-w-6xl p-4 sm:p-10">
         
         <header class="text-center mb-8 sm:mb-10">
-            <h1 class="text-4xl sm:text-5xl font-extrabold text-red-600 mb-1 sm:mb-2 tracking-tight">MEXICANO EM PP</h1>
+            <h1 class="4xl sm:text-5xl font-extrabold text-red-600 mb-1 sm:mb-2 tracking-tight">MEXICANO EM PP</h1>
             <p class="text-lg sm:text-xl text-neutral-500 font-medium">Plano de organização para 10 comerem um mexicano!</p>
         </header>
 
         <nav class="mb-8 sm:mb-10">
-            <!-- CORREÇÃO: Usando justify-between para forçar os botões a usarem toda a largura e o flex-1 para distribuição uniforme -->
             <div class="flex justify-between border-b-2 border-neutral-200">
                 <button class="tab-button active flex-1 text-sm sm:text-xl font-bold py-4 px-1 sm:px-2" data-target="visao-geral">Visão Geral</button>
                 <button class="tab-button flex-1 text-sm sm:text-xl font-bold py-4 px-1 sm:px-2" data-target="receitas">Receitas</button>
@@ -118,7 +117,6 @@
             <section id="receitas" class="tab-content hidden">
                 <div class="content-card p-6 sm:p-8">
                     <div class="recipe-tab-container mb-8">
-                        <!-- w-1/2 no mobile para garantir 2 por linha, w-auto no desktop -->
                         <button class="recipe-tab-button active w-[calc(50%-4px)] sm:w-auto text-xs sm:text-base font-bold py-3 px-4 sm:px-6 rounded-full bg-neutral-100 text-neutral-700" data-target="recipe-carne">Carne Moída</button>
                         <button class="recipe-tab-button w-[calc(50%-4px)] sm:w-auto text-xs sm:text-base font-bold py-3 px-4 sm:px-6 rounded-full bg-neutral-100 text-neutral-700" data-target="recipe-guacamole">Guacamole</button>
                         <button class="recipe-tab-button w-[calc(50%-4px)] sm:w-auto text-xs sm:text-base font-bold py-3 px-4 sm:px-6 rounded-full bg-neutral-100 text-neutral-700" data-target="recipe-cheddar">Cheddar Cremoso</button>
@@ -270,35 +268,35 @@
     <script>
         const shoppingListData = [
             { category: 'Açougue', index: 0, items: [
-                { name: 'Carne Moída (Patinho/Acém)', qty: '1.5 kg', price: 45.00, checked: true }
+                { name: 'Carne Moída (Patinho/Acém)', qty: '1.5 kg', price: 45.00, checked: false }
             ]},
             { category: 'Hortifruti', index: 1, items: [
-                { name: 'Abacate Médio (ou Avocado)', qty: '4 unidades', price: 20.00, checked: true },
-                { name: 'Tomate', qty: 'aprox. 4 unidades', price: 5.00, checked: true },
-                { name: 'Cebola Roxa', qty: '1 unidade', price: 2.00, checked: true },
-                { name: 'Cebola Branca', qty: '2 unidades', price: 2.00, checked: true },
-                { name: 'Coentro', qty: '1 maço', price: 3.00, checked: true },
-                { name: 'Limão Tahiti', qty: 'aprox. 4 unidades', price: 3.00, checked: true },
-                { name: 'Alho', qty: '1 cabeça', price: 3.00, checked: true },
-                { name: 'Alface Americana', qty: '2 pés', price: 8.00, checked: true },
-                { name: 'Pimenta Dedo-de-Moça', qty: '2 unidades', price: 3.00, checked: true }
+                { name: 'Abacate Médio (ou Avocado)', qty: '4 unidades', price: 20.00, checked: false },
+                { name: 'Tomate', qty: 'aprox. 4 unidades', price: 5.00, checked: false },
+                { name: 'Cebola Roxa', qty: '1 unidade', price: 2.00, checked: false },
+                { name: 'Cebola Branca', qty: '2 unidades', price: 2.00, checked: false },
+                { name: 'Coentro', qty: '1 maço', price: 3.00, checked: false },
+                { name: 'Limão Tahiti', qty: 'aprox. 4 unidades', price: 3.00, checked: false },
+                { name: 'Alho', qty: '1 cabeça', price: 3.00, checked: false },
+                { name: 'Alface Americana', qty: '2 pés', price: 8.00, checked: false },
+                { name: 'Pimenta Dedo-de-Moça', qty: '2 unidades', price: 3.00, checked: false }
             ]},
             { category: 'Laticínios', index: 2, items: [
-                { name: 'Cheddar Processado (Bisnaga/Pote)', qty: '400g', price: 25.00, checked: true },
-                { name: 'Creme de Leite (Caixa)', qty: '2 caixas', price: 6.00, checked: true },
-                { name: 'Creme de Leite Fresco (ou Nata)', qty: '300g', price: 15.00, checked: true },
-                { name: 'Manteiga', qty: '200g', price: 10.00, checked: true }
+                { name: 'Cheddar Processado (Bisnaga/Pote)', qty: '400g', price: 25.00, checked: false },
+                { name: 'Creme de Leite (Caixa)', qty: '2 caixas', price: 6.00, checked: false },
+                { name: 'Creme de Leite Fresco (ou Nata)', qty: '300g', price: 15.00, checked: false },
+                { name: 'Manteiga', qty: '200g', price: 10.00, checked: false }
             ]},
             { category: 'Mercearia', index: 3, items: [
-                { name: 'Doritos (Pacote Grande)', qty: '3 pacotes', price: 60.00, checked: true },
-                { name: 'Rap10 (Pacote c/ 10)', qty: '3 pacotes', price: 30.00, checked: true },
-                { name: 'Pimenta Calabresa (seco)', qty: '1 pct', price: 4.00, checked: true },
-                { name: 'Cominho em Pó', qty: '1 pct', price: 4.00, checked: true },
-                { name: 'Páprica Doce/Defumada', qty: '1 pct', price: 5.00, checked: true },
-                { name: 'Molho de Tomate (Lata/Sachê)', qty: '1 unidade', price: 3.00, checked: true }
+                { name: 'Doritos (Pacote Grande)', qty: '3 pacotes', price: 60.00, checked: false },
+                { name: 'Rap10 (Pacote c/ 10)', qty: '3 pacotes', price: 30.00, checked: false },
+                { name: 'Pimenta Calabresa (seco)', qty: '1 pct', price: 4.00, checked: false },
+                { name: 'Cominho em Pó', qty: '1 pct', price: 4.00, checked: false },
+                { name: 'Páprica Doce/Defumada', qty: '1 pct', price: 5.00, checked: false },
+                { name: 'Molho de Tomate (Lata/Sachê)', qty: '1 unidade', price: 3.00, checked: false }
             ]},
             { category: 'Sobremesa', index: 4, items: [
-                { name: 'Sorvete (Pote 1.5L)', qty: '1 pote', price: 30.00, checked: true }
+                { name: 'Sorvete (Pote 1.5L)', qty: '1 pote', price: 30.00, checked: false }
             ]}
         ];
 
