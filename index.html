@@ -10,7 +10,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-    <!-- Chosen Palette: Warm Fiesta (Red, Amber, Orange, Green) -->
+    <!-- Chosen Palette: Warm Fiesta (Red, Amber, Orange, Green, Fuchsia) -->
     <!-- Application Structure Plan: A tabbed SPA structure ('Visão Geral', 'Receitas', 'Lista de Compras', 'Orçamento') was chosen for optimal user flow. This guides the user from planning (recipes) to action (shopping) and review (budget). 'Receitas' uses nested tabs for clarity. The 'Lista' and 'Orçamento' are linked via JS: checking items on the list dynamically updates the budget chart and totals, making the plan interactive and actionable. The modern design (shadows, large radius, vibrant colors) increases visual engagement and perceived fluidity. -->
     <!-- Visualization & Content Choices: Report Info: Recipes -> Goal: Inform -> Viz: Nested HTML tabs with hover effects -> Interaction: Click tabs to show/hide recipes -> Justification: Prevents info overload and adds visual flair. | Report Info: Shopping List -> Goal: Organize/Action -> Viz: Checkbox-enabled HTML lists with striped background -> Interaction: Check items (updates budget) -> Justification: Clear actionability and visual hierarchy. | Report Info: Budget -> Goal: Inform/Analyze -> Viz: Chart.js Doughnut Chart + Vibrant HTML Table -> Interaction: Chart updates based on shopping list checks -> Justification: Visually exciting breakdown of costs by category with real-time financial feedback. | CONFIRM: NO SVG/Mermaid. -->
     <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
@@ -82,7 +82,7 @@
     <div class="container mx-auto max-w-6xl p-4 sm:p-10">
         
         <header class="text-center mb-8 sm:mb-10">
-            <h1 class="4xl sm:text-5xl font-extrabold text-red-600 mb-1 sm:mb-2 tracking-tight">MEXICANO EM PP</h1>
+            <h1 class="text-4xl sm:text-5xl font-extrabold text-red-600 mb-1 sm:mb-2 tracking-tight">MEXICANO EM PP</h1>
             <p class="text-lg sm:text-xl text-neutral-500 font-medium">Plano de organização para 10 comerem um mexicano!</p>
         </header>
 
@@ -109,7 +109,8 @@
                         <li class="font-medium"><strong>Guacamole Refrescante:</strong> Acompanhamento essencial, com a quantidade ajustada de abacates.</li>
                         <li class="font-medium"><strong>Cheddar Turbinado:</strong> Cremoso e abundante graças ao toque de creme de leite.</li>
                         <li class="font-medium"><strong>Sour Cream Caseiro:</strong> O molho azedinho feito na hora para equilibrar a pimenta.</li>
-                        <li class="font-medium"><strong>Final Feliz:</strong> Alface Americana fresca e um pote de Sorvete gelado.</li>
+                        <li class="font-medium"><strong>Final Feliz (Sobremesa):</strong> Torta Cremosa de Farofa (caseira) e um pote de Sorvete gelado.</li>
+                        <li class="font-medium"><strong>Toque Fresco:</strong> Alface Americana para colocarmos nos tacos.</li>
                     </ul>
                 </div>
             </section>
@@ -121,6 +122,8 @@
                         <button class="recipe-tab-button w-[calc(50%-4px)] sm:w-auto text-xs sm:text-base font-bold py-3 px-4 sm:px-6 rounded-full bg-neutral-100 text-neutral-700" data-target="recipe-guacamole">Guacamole</button>
                         <button class="recipe-tab-button w-[calc(50%-4px)] sm:w-auto text-xs sm:text-base font-bold py-3 px-4 sm:px-6 rounded-full bg-neutral-100 text-neutral-700" data-target="recipe-cheddar">Cheddar Cremoso</button>
                         <button class="recipe-tab-button w-[calc(50%-4px)] sm:w-auto text-xs sm:text-base font-bold py-3 px-4 sm:px-6 rounded-full bg-neutral-100 text-neutral-700" data-target="recipe-sour-cream">Sour Cream</button>
+                        <!-- Nova Aba de Receita -->
+                        <button class="recipe-tab-button w-[calc(50%-4px)] sm:w-auto text-xs sm:text-base font-bold py-3 px-4 sm:px-6 rounded-full bg-neutral-100 text-neutral-700" data-target="recipe-torta">Torta Cremosa</button>
                     </div>
 
                     <div id="recipe-carne" class="recipe-content">
@@ -221,13 +224,38 @@
                             </div>
                         </div>
                     </div>
+
+                    <div id="recipe-torta" class="recipe-content hidden">
+                        <h3 class="text-2xl sm:text-3xl font-bold text-red-600 mb-4">Torta Cremosa de Farofa (Sobremesa Caseira)</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
+                            <div class="md:col-span-1 p-4 bg-neutral-50 rounded-lg">
+                                <h4 class="text-xl font-semibold mb-3 text-amber-600">Ingredientes:</h4>
+                                <ul class="list-disc list-inside space-y-1 text-neutral-700">
+                                    <li><strong>Massa (Farofa):</strong> Farinha, Açúcar e Margarina (ou Manteiga)</li>
+                                    <li><strong>Creme:</strong> Leite Condensado (1 lata), Creme de Leite (1 caixa), Leite (1 xícara), Ovos (4 gemas e 2 claras)</li>
+                                </ul>
+                            </div>
+                            <div class="md:col-span-2">
+                                <h4 class="text-xl font-semibold mb-3 text-amber-600">Preparo (Otimizado):</h4>
+                                <ol class="list-decimal list-inside space-y-3 text-neutral-700">
+                                    <li><strong>Farofa:</strong> Misture farinha, açúcar e margarina (ou manteiga) até formar uma farofa solta, semelhante a de cuca. Forre o fundo e laterais de uma forma.</li>
+                                    <li><strong>Creme:</strong> Misture o Leite Condensado, Leite, gemas e 1 caixa de Creme de Leite. Cozinhe em fogo baixo até engrossar levemente (ponto de brigadeiro mole).</li>
+                                    <li><strong>Montagem (Dica do Áudio!):</strong> Derrame o creme <em>ainda quente</em> sobre a farofa. Isso ajuda na textura final da torta.</li>
+                                    <li>Bata as duas claras em neve e adicione o restante do Creme de Leite por cima da torta, para a cobertura (opcional, mas delicioso).</li>
+                                    <li>Finalize cobrindo com o restante da farofa.</li>
+                                    <li><strong>Forno:</strong> Asse em forno médio (150°C - 180°C) por cerca de 40 minutos, ou até a farofa dourar e ficar crocante.</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </section>
 
             <section id="lista-compras" class="tab-content hidden">
                 <div class="content-card p-6 sm:p-8">
                     <h2 class="text-3xl font-bold text-red-600 mb-6">Sua Lista de Compras (Interativa)</h2>
-                    <p class="mb-8 text-lg text-neutral-600">Marque os itens à medida que os adiciona ao carrinho. O sistema calculará o custo restante em tempo real na aba de Orçamento. Facilidade total nas compras!</p>
+                    <p class="mb-8 text-lg text-neutral-600">Marque os itens à medida que os adiciona ao carrinho. **O orçamento total (aba 'Orçamento') já inclui o custo de TODOS os itens desta lista.**</p>
                     <div id="shopping-list-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     </div>
                 </div>
@@ -236,7 +264,7 @@
             <section id="orcamento" class="tab-content hidden">
                 <div class="content-card p-6 sm:p-8">
                     <h2 class="text-3xl font-bold text-red-600 mb-6">Análise Orçamentária (R$)</h2>
-                    <p class="text-lg mb-8 text-neutral-600">Veja a distribuição dos gastos por categoria. O total inclui a correção de 10% para imprevistos e variações de preço em Videira, SC. Os valores mudam conforme você marca os itens na lista de compras.</p>
+                    <p class="text-lg mb-8 text-neutral-600">Veja a distribuição dos gastos por categoria. O total inclui a correção de 10% para imprevistos e variações de preço em Videira, SC. Os valores representam o custo total da lista de compras.</p>
                     <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
                         <div class="chart-container">
                             <canvas id="budgetChart"></canvas>
@@ -279,13 +307,15 @@
                 { name: 'Limão Tahiti', qty: 'aprox. 4 unidades', price: 3.00, checked: false },
                 { name: 'Alho', qty: '1 cabeça', price: 3.00, checked: false },
                 { name: 'Alface Americana', qty: '2 pés', price: 8.00, checked: false },
-                { name: 'Pimenta Dedo-de-Moça', qty: '2 unidades', price: 3.00, checked: false }
+                { name: 'Pimenta Dedo-de-Moça', qty: '2 unidades', price: 3.00, checked: false },
+                { name: 'Ovos', qty: '4 unidades (para a torta)', price: 4.00, checked: false }
             ]},
             { category: 'Laticínios', index: 2, items: [
                 { name: 'Cheddar Processado (Bisnaga/Pote)', qty: '400g', price: 25.00, checked: false },
-                { name: 'Creme de Leite (Caixa)', qty: '2 caixas', price: 6.00, checked: false },
-                { name: 'Creme de Leite Fresco (ou Nata)', qty: '300g', price: 15.00, checked: false },
-                { name: 'Manteiga', qty: '200g', price: 10.00, checked: false }
+                { name: 'Creme de Leite (Caixa)', qty: '3 caixas (2 p/ cheddar, 1 p/ torta)', price: 9.00, checked: false },
+                { name: 'Creme de Leite Fresco (ou Nata)', qty: '300g (p/ Sour Cream)', price: 15.00, checked: false },
+                { name: 'Manteiga', qty: '200g', price: 10.00, checked: false },
+                { name: 'Leite Integral', qty: '1 litro (p/ torta)', price: 5.00, checked: false }
             ]},
             { category: 'Mercearia', index: 3, items: [
                 { name: 'Doritos (Pacote Grande)', qty: '3 pacotes', price: 60.00, checked: false },
@@ -293,18 +323,25 @@
                 { name: 'Pimenta Calabresa (seco)', qty: '1 pct', price: 4.00, checked: false },
                 { name: 'Cominho em Pó', qty: '1 pct', price: 4.00, checked: false },
                 { name: 'Páprica Doce/Defumada', qty: '1 pct', price: 5.00, checked: false },
-                { name: 'Molho de Tomate (Lata/Sachê)', qty: '1 unidade', price: 3.00, checked: false }
+                { name: 'Molho de Tomate (Lata/Sachê)', qty: '1 unidade', price: 3.00, checked: false },
+                { name: 'Açúcar', qty: '1 kg (p/ torta)', price: 6.00, checked: false },
+                { name: 'Leite Condensado', qty: '1 lata (p/ torta)', price: 6.00, checked: false },
             ]},
-            { category: 'Sobremesa', index: 4, items: [
+            { category: 'Padaria & Confeitaria', index: 4, items: [
+                { name: 'Farinha de Trigo', qty: '1 kg', price: 5.00, checked: false },
+                { name: 'Margarina', qty: '250g (p/ massa da torta)', price: 7.00, checked: false },
+            ]},
+            { category: 'Sobremesa Pronta', index: 5, items: [
                 { name: 'Sorvete (Pote 1.5L)', qty: '1 pote', price: 30.00, checked: false }
             ]}
         ];
 
         let myBudgetChart;
-        const categoryTotals = [0, 0, 0, 0, 0];
-        const categoryLabels = ['Açougue', 'Hortifruti', 'Laticínios', 'Mercearia', 'Sobremesa'];
+        // 6 categorias agora
+        const categoryTotals = [0, 0, 0, 0, 0, 0];
+        const categoryLabels = ['Açougue', 'Hortifruti', 'Laticínios', 'Mercearia', 'Padaria & Confeitaria', 'Sobremesa Pronta'];
         /* New warmer and more harmonious palette */
-        const categoryColors = ['#DC2626', '#16A34A', '#F59E0B', '#D97706', '#6D28D9']; /* Red, Green, Amber, Orange, Violet */
+        const categoryColors = ['#DC2626', '#16A34A', '#F59E0B', '#D97706', '#EC4899', '#6D28D9']; /* Red, Green, Amber, Orange, Pink, Violet */
 
         function toBRL(value) {
             return value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
@@ -314,12 +351,13 @@
             let subtotal = 0;
             categoryTotals.fill(0);
 
+            // AQUI ESTÁ A CORREÇÃO:
+            // O orçamento agora sempre soma o valor total de todos os itens, ignorando o status 'checked'.
             shoppingListData.forEach(category => {
                 category.items.forEach(item => {
-                    if (item.checked) {
-                        subtotal += item.price;
-                        categoryTotals[category.index] += item.price;
-                    }
+                    // Soma todos os itens para o Subtotal e para a categoria
+                    subtotal += item.price;
+                    categoryTotals[category.index] += item.price;
                 });
             });
 
@@ -334,6 +372,7 @@
 
             if (myBudgetChart) {
                 myBudgetChart.data.datasets[0].data = categoryTotals;
+                myBudgetChart.data.labels = categoryLabels;
                 myBudgetChart.update();
             }
         }
@@ -368,11 +407,12 @@
                     checkbox.dataset.catIndex = catIndex;
                     checkbox.dataset.itemIndex = itemIndex;
 
+                    // O checkbox agora apenas atualiza o estado interno, mas não afeta o orçamento
                     checkbox.addEventListener('change', (e) => {
                         const cIdx = parseInt(e.target.dataset.catIndex);
                         const iIdx = parseInt(e.target.dataset.itemIndex);
                         shoppingListData[cIdx].items[iIdx].checked = e.target.checked;
-                        updateBudget();
+                        // updateBudget() removido daqui
                     });
 
                     const textSpan = document.createElement('span');
@@ -461,6 +501,7 @@
                     });
 
                     if (target === 'orcamento') {
+                        // Sempre chama o updateBudget() quando abre a tela de orçamento
                         if (!myBudgetChart) {
                             setupBudgetChart();
                         }
@@ -501,6 +542,7 @@
             setupTabs();
             setupRecipeTabs();
             populateShoppingList();
+            // Chamada inicial para garantir que os valores de orçamento estejam corretos na primeira abertura
             updateBudget(); 
         });
     </script>
