@@ -50,23 +50,22 @@
         }
         .content-card {
             background-color: white;
+            padding: 2rem;
             border-radius: 1.5rem; /* rounded-2xl */
             box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1); /* shadow-xl */
         }
-        /* Responsiveness for Chart Container */
         .chart-container {
             position: relative;
             width: 100%;
             max-width: 450px;
             margin-left: auto;
             margin-right: auto;
-            min-height: 300px;
-            height: 40vh; /* Responsive height on small screens */
+            height: 350px;
             max-height: 450px;
         }
         @media (min-width: 768px) {
             .chart-container {
-                height: 450px; /* Larger height on desktop */
+                height: 450px;
             }
         }
     </style>
@@ -75,23 +74,23 @@
 
     <div class="container mx-auto max-w-6xl p-4 sm:p-10">
         
-        <header class="text-center mb-8 sm:mb-10">
-            <h1 class="text-4xl sm:text-5xl font-extrabold text-red-600 mb-1 sm:mb-2 tracking-tight">MEXICANO EM PP</h1>
-            <p class="text-lg sm:text-xl text-neutral-500 font-medium">Plano de organização para 10 comerem um mexicano!</p>
+        <header class="text-center mb-10">
+            <h1 class="text-5xl font-extrabold text-red-600 mb-2 tracking-tight">MEXICANO EM PP</h1>
+            <p class="text-xl text-neutral-500 font-medium">Plano de organização para 10 comerem um mexicano!</p>
         </header>
 
-        <nav class="mb-8 sm:mb-10">
-            <div class="flex justify-center border-b-2 border-neutral-200 gap-2 sm:gap-12 overflow-x-auto whitespace-nowrap">
-                <button class="tab-button active text-base sm:text-xl font-bold py-4 px-1 sm:px-2" data-target="visao-geral">Visão Geral</button>
-                <button class="tab-button text-base sm:text-xl font-bold py-4 px-1 sm:px-2" data-target="receitas">Receitas</button>
-                <button class="tab-button text-base sm:text-xl font-bold py-4 px-1 sm:px-2" data-target="lista-compras">Lista de Compras</button>
-                <button class="tab-button text-base sm:text-xl font-bold py-4 px-1 sm:px-2" data-target="orcamento">Orçamento</button>
+        <nav class="mb-10">
+            <div class="flex justify-center border-b-2 border-neutral-200 space-x-4 sm:space-x-12">
+                <button class="tab-button active text-xl font-bold py-4 px-2" data-target="visao-geral">Visão Geral</button>
+                <button class="tab-button text-xl font-bold py-4 px-2" data-target="receitas">Receitas</button>
+                <button class="tab-button text-xl font-bold py-4 px-2" data-target="lista-compras">Lista de Compras</button>
+                <button class="tab-button text-xl font-bold py-4 px-2" data-target="orcamento">Orçamento</button>
             </div>
         </nav>
 
         <main>
             <section id="visao-geral" class="tab-content">
-                <div class="content-card p-6 sm:p-8">
+                <div class="content-card">
                     <h2 class="text-3xl font-bold text-red-600 mb-4">O Plano Interativo</h2>
                     <p class="text-lg mb-6 text-neutral-600">Este guia transforma a organização do seu jantar em uma experiência fluida. Use as abas acima para navegar entre o cardápio, o preparo detalhado, a lista de compras marcável e o orçamento que se atualiza em tempo real. Tudo pensado para facilitar sua festa em Videira, SC!</p>
                     
@@ -109,17 +108,17 @@
             </section>
 
             <section id="receitas" class="tab-content hidden">
-                <div class="content-card p-6 sm:p-8">
-                    <div class="flex flex-wrap gap-2 sm:gap-3 mb-8">
-                        <button class="recipe-tab-button active flex-grow sm:flex-grow-0 text-xs sm:text-base font-bold py-3 px-4 sm:px-6 rounded-full bg-neutral-100 text-neutral-700" data-target="recipe-carne">Carne Moída</button>
-                        <button class="recipe-tab-button flex-grow sm:flex-grow-0 text-xs sm:text-base font-bold py-3 px-4 sm:px-6 rounded-full bg-neutral-100 text-neutral-700" data-target="recipe-guacamole">Guacamole</button>
-                        <button class="recipe-tab-button flex-grow sm:flex-grow-0 text-xs sm:text-base font-bold py-3 px-4 sm:px-6 rounded-full bg-neutral-100 text-neutral-700" data-target="recipe-cheddar">Cheddar Cremoso</button>
-                        <button class="recipe-tab-button flex-grow sm:flex-grow-0 text-xs sm:text-base font-bold py-3 px-4 sm:px-6 rounded-full bg-neutral-100 text-neutral-700" data-target="recipe-sour-cream">Sour Cream</button>
+                <div class="content-card">
+                    <div class="flex flex-wrap gap-3 mb-8">
+                        <button class="recipe-tab-button active flex-grow sm:flex-grow-0 text-sm sm:text-base font-bold py-3 px-6 rounded-full bg-neutral-100 text-neutral-700" data-target="recipe-carne">Carne Moída</button>
+                        <button class="recipe-tab-button flex-grow sm:flex-grow-0 text-sm sm:text-base font-bold py-3 px-6 rounded-full bg-neutral-100 text-neutral-700" data-target="recipe-guacamole">Guacamole</button>
+                        <button class="recipe-tab-button flex-grow sm:flex-grow-0 text-sm sm:text-base font-bold py-3 px-6 rounded-full bg-neutral-100 text-neutral-700" data-target="recipe-cheddar">Cheddar Cremoso</button>
+                        <button class="recipe-tab-button flex-grow sm:flex-grow-0 text-sm sm:text-base font-bold py-3 px-6 rounded-full bg-neutral-100 text-neutral-700" data-target="recipe-sour-cream">Sour Cream</button>
                     </div>
 
                     <div id="recipe-carne" class="recipe-content">
-                        <h3 class="text-2xl sm:text-3xl font-bold text-red-600 mb-4">Carne Moída Apimentada</h3>
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
+                        <h3 class="text-3xl font-bold text-red-600 mb-4">Carne Moída Apimentada</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                             <div class="md:col-span-1 p-4 bg-neutral-50 rounded-lg">
                                 <h4 class="text-xl font-semibold mb-3 text-amber-600">Ingredientes:</h4>
                                 <ul class="list-disc list-inside space-y-1 text-neutral-700">
@@ -146,8 +145,8 @@
                     </div>
 
                     <div id="recipe-guacamole" class="recipe-content hidden">
-                        <h3 class="text-2xl sm:text-3xl font-bold text-red-600 mb-4">Guacamole (Obrigatório!)</h3>
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
+                        <h3 class="text-3xl font-bold text-red-600 mb-4">Guacamole (Obrigatório!)</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                             <div class="md:col-span-1 p-4 bg-neutral-50 rounded-lg">
                                 <h4 class="text-xl font-semibold mb-3 text-amber-600">Ingredientes:</h4>
                                 <ul class="list-disc list-inside space-y-1 text-neutral-700">
@@ -173,8 +172,8 @@
                     </div>
 
                     <div id="recipe-cheddar" class="recipe-content hidden">
-                        <h3 class="text-2xl sm:text-3xl font-bold text-red-600 mb-4">Cheddar Cremoso Gourmet</h3>
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
+                        <h3 class="text-3xl font-bold text-red-600 mb-4">Cheddar Cremoso Gourmet</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                             <div class="md:col-span-1 p-4 bg-neutral-50 rounded-lg">
                                 <h4 class="text-xl font-semibold mb-3 text-amber-600">Ingredientes:</h4>
                                 <ul class="list-disc list-inside space-y-1 text-neutral-700">
@@ -194,8 +193,8 @@
                     </div>
 
                     <div id="recipe-sour-cream" class="recipe-content hidden">
-                        <h3 class="text-2xl sm:text-3xl font-bold text-red-600 mb-4">Sour Cream Caseiro</h3>
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
+                        <h3 class="text-3xl font-bold text-red-600 mb-4">Sour Cream Caseiro</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                             <div class="md:col-span-1 p-4 bg-neutral-50 rounded-lg">
                                 <h4 class="text-xl font-semibold mb-3 text-amber-600">Ingredientes:</h4>
                                 <ul class="list-disc list-inside space-y-1 text-neutral-700">
@@ -219,7 +218,7 @@
             </section>
 
             <section id="lista-compras" class="tab-content hidden">
-                <div class="content-card p-6 sm:p-8">
+                <div class="content-card">
                     <h2 class="text-3xl font-bold text-red-600 mb-6">Sua Lista de Compras (Interativa)</h2>
                     <p class="mb-8 text-lg text-neutral-600">Marque os itens à medida que os adiciona ao carrinho. O sistema calculará o custo restante em tempo real na aba de Orçamento. Facilidade total nas compras!</p>
                     <div id="shopping-list-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -228,7 +227,7 @@
             </section>
 
             <section id="orcamento" class="tab-content hidden">
-                <div class="content-card p-6 sm:p-8">
+                <div class="content-card">
                     <h2 class="text-3xl font-bold text-red-600 mb-6">Análise Orçamentária (R$)</h2>
                     <p class="text-lg mb-8 text-neutral-600">Veja a distribuição dos gastos por categoria. O total inclui a correção de 10% para imprevistos e variações de preço em Videira, SC. Os valores mudam conforme você marca os itens na lista de compras.</p>
                     <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
