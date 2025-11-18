@@ -10,21 +10,29 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-    <!-- Chosen Palette: Warm Fiesta (Red, Amber, Orange, Green, Fuchsia) -->
+    <!-- Chosen Palette: Mexican Fiesta (B0302F, 3575A2, CF6A00, EB8F2C, 276124, B0367F) -->
     <!-- Application Structure Plan: A tabbed SPA structure ('Visão Geral', 'Receitas', 'Lista de Compras', 'Orçamento') was chosen for optimal user flow. This guides the user from planning (recipes) to action (shopping) and review (budget). 'Receitas' uses nested tabs for clarity. The 'Lista' and 'Orçamento' are linked via JS: checking items on the list dynamically updates the budget chart and totals, making the plan interactive and actionable. The modern design (shadows, large radius, vibrant colors) increases visual engagement and perceived fluidity. -->
     <!-- Visualization & Content Choices: Report Info: Recipes -> Goal: Inform -> Viz: Nested HTML tabs with hover effects -> Interaction: Click tabs to show/hide recipes -> Justification: Prevents info overload and adds visual flair. | Report Info: Shopping List -> Goal: Organize/Action -> Viz: Checkbox-enabled HTML lists with striped background -> Interaction: Check items (updates budget) -> Justification: Clear actionability and visual hierarchy. | Report Info: Budget -> Goal: Inform/Analyze -> Viz: Chart.js Doughnut Chart + Vibrant HTML Table -> Interaction: Chart updates based on shopping list checks -> Justification: Visually exciting breakdown of costs by category with real-time financial feedback. | CONFIRM: NO SVG/Mermaid. -->
     <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
     <style>
+        /* Cores da Nova Paleta */
+        :root {
+            --color-primary: #B0302F; /* Vermelho Terroso */
+            --color-secondary: #CF6A00; /* Laranja Quente */
+            --color-background: #FAF3E8; /* Bege/Pêssego Claro */
+            --color-text: #2D2D2D; /* Escuro para contraste */
+        }
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #F9FAFB; 
+            background-color: var(--color-background); 
+            color: var(--color-text);
         }
         .tab-button {
             transition: all 0.3s ease;
             position: relative;
         }
         .tab-button.active {
-            color: #DC2626; /* Red-600 */
+            color: var(--color-primary);
         }
         .tab-button.active::after {
             content: '';
@@ -34,7 +42,7 @@
             transform: translateX(-50%);
             width: 80%;
             height: 4px;
-            background-color: #DC2626; /* Red-600 */
+            background-color: var(--color-primary);
             border-radius: 9999px;
         }
         .recipe-tab-button {
@@ -44,14 +52,14 @@
             transform: translateY(-1px);
         }
         .recipe-tab-button.active {
-            background-color: #F59E0B; /* Amber-500 */
+            background-color: var(--color-secondary);
             color: white;
-            box-shadow: 0 4px 6px -1px rgba(245, 158, 11, 0.3), 0 2px 4px -2px rgba(245, 158, 11, 0.3);
+            box-shadow: 0 4px 6px -1px rgba(207, 106, 0, 0.3), 0 2px 4px -2px rgba(207, 106, 0, 0.3);
         }
         .content-card {
             background-color: white;
             border-radius: 1.5rem; /* rounded-2xl */
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1); /* shadow-xl */
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1); /* shadow-xl suavizado */
         }
         /* Responsiveness for Chart Container */
         .chart-container {
@@ -77,17 +85,17 @@
         }
     </style>
 </head>
-<body class="text-neutral-800">
+<body>
 
     <div class="container mx-auto max-w-6xl p-4 sm:p-10">
         
         <header class="text-center mb-8 sm:mb-10">
-            <h1 class="text-4xl sm:text-5xl font-extrabold text-red-600 mb-1 sm:mb-2 tracking-tight">MEXICANO EM PP</h1>
-            <p class="text-lg sm:text-xl text-neutral-500 font-medium">Plano de organização para 7 comerem 1 mexicano!</p>
+            <h1 class="text-4xl sm:text-5xl font-extrabold text-[var(--color-primary)] mb-1 sm:mb-2 tracking-tight">MEXICANO EM PP</h1>
+            <p class="text-lg sm:text-xl text-[var(--color-secondary)] font-medium">Plano de organização para 7 comerem 1 mexicano!</p>
         </header>
 
         <nav class="mb-8 sm:mb-10">
-            <div class="flex justify-between border-b-2 border-neutral-200">
+            <div class="flex justify-between border-b-2 border-neutral-300">
                 <button class="tab-button active flex-1 text-sm sm:text-xl font-bold py-4 px-1 sm:px-2" data-target="visao-geral">Visão Geral</button>
                 <button class="tab-button flex-1 text-sm sm:text-xl font-bold py-4 px-1 sm:px-2" data-target="receitas">Receitas</button>
                 <button class="tab-button flex-1 text-sm sm:text-xl font-bold py-4 px-1 sm:px-2" data-target="lista-compras">Lista de Compras</button>
@@ -98,11 +106,11 @@
         <main>
             <section id="visao-geral" class="tab-content">
                 <div class="content-card p-6 sm:p-8">
-                    <h2 class="text-3xl font-bold text-red-600 mb-4">O Plano Interativo</h2>
-                    <p class="text-lg mb-6 text-neutral-600">Este guia transforma a organização do seu jantar em uma experiência fluida. Use as abas acima para navegar entre o cardápio, o preparo detalhado, a lista de compras marcável e o orçamento que se atualiza em tempo real. Tudo pensado para facilitar sua festa em Videira, SC!</p>
+                    <h2 class="text-3xl font-bold text-[var(--color-primary)] mb-4">O Plano Interativo</h2>
+                    <p class="text-lg mb-6 text-[var(--color-text)]">Este guia transforma a organização do seu jantar em uma experiência fluida. Use as abas acima para navegar entre o cardápio, o preparo detalhado, a lista de compras marcável e o orçamento que se atualiza em tempo real. Tudo pensado para facilitar sua festa em Videira, SC!</p>
                     
-                    <h3 class="text-2xl font-semibold text-red-600 mb-4">Cardápio de Sabor e Ação (7 Pessoas + Sobremesa)</h3>
-                    <ul class="list-disc list-inside space-y-3 text-lg pl-4">
+                    <h3 class="text-2xl font-semibold text-[var(--color-secondary)] mb-4">Cardápio de Sabor e Ação (7 Pessoas + Sobremesa)</h3>
+                    <ul class="list-disc list-inside space-y-3 text-lg pl-4 text-[var(--color-text)]">
                         <li class="font-medium"><strong>Nachos Crocantes:</strong> Doritos como base perfeita para mergulhar.</li>
                         <li class="font-medium"><strong>Tacos Práticos:</strong> Usando Rap10, aquecidos para simular tortillas macias.</li>
                         <li class="font-medium"><strong>Carne Moída Picante:</strong> O recheio robusto e cheio de tempero (Quantidade ajustada para 7).</li>
@@ -127,11 +135,11 @@
                     </div>
 
                     <div id="recipe-carne" class="recipe-content">
-                        <h3 class="text-2xl sm:text-3xl font-bold text-red-600 mb-4">Carne Moída Apimentada (Para 7 Pessoas)</h3>
+                        <h3 class="text-2xl sm:text-3xl font-bold text-[var(--color-primary)] mb-4">Carne Moída Apimentada (Para 7 Pessoas)</h3>
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
                             <div class="md:col-span-1 p-4 bg-neutral-50 rounded-lg">
-                                <h4 class="text-xl font-semibold mb-3 text-amber-600">Ingredientes:</h4>
-                                <ul class="list-disc list-inside space-y-1 text-neutral-700">
+                                <h4 class="text-xl font-semibold mb-3 text-[var(--color-secondary)]">Ingredientes:</h4>
+                                <ul class="list-disc list-inside space-y-1 text-[var(--color-text)]">
                                     <li><strong>1.1 kg</strong> de carne moída (patinho ou acém)</li>
                                     <li>2 cebolas grandes picadas</li>
                                     <li>4 dentes de alho picados</li>
@@ -143,8 +151,8 @@
                                 </ul>
                             </div>
                             <div class="md:col-span-2">
-                                <h4 class="text-xl font-semibold mb-3 text-amber-600">Preparo (Fácil e Rápido):</h4>
-                                <ol class="list-decimal list-inside space-y-3 text-neutral-700">
+                                <h4 class="text-xl font-semibold mb-3 text-[var(--color-secondary)]">Preparo (Fácil e Rápido):</h4>
+                                <ol class="list-decimal list-inside space-y-3 text-[var(--color-text)]">
                                     <li>Em uma panela grande, aqueça azeite e refogue a cebola e o alho.</li>
                                     <li>Adicione a carne e mexa para soltar. Cozinhe até perder o tom rosado.</li>
                                     <li>Escorra o excesso de líquido se necessário. Adicione a pimenta, páprica e cominho. Refogue por 1 minuto.</li>
@@ -155,11 +163,11 @@
                     </div>
 
                     <div id="recipe-guacamole" class="recipe-content hidden">
-                        <h3 class="text-2xl sm:text-3xl font-bold text-red-600 mb-4">Guacamole (Obrigatório! - Para 7 Pessoas)</h3>
+                        <h3 class="text-2xl sm:text-3xl font-bold text-[var(--color-primary)] mb-4">Guacamole (Obrigatório! - Para 7 Pessoas)</h3>
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
                             <div class="md:col-span-1 p-4 bg-neutral-50 rounded-lg">
-                                <h4 class="text-xl font-semibold mb-3 text-amber-600">Ingredientes:</h4>
-                                <ul class="list-disc list-inside space-y-1 text-neutral-700">
+                                <h4 class="text-xl font-semibold mb-3 text-[var(--color-secondary)]">Ingredientes:</h4>
+                                <ul class="list-disc list-inside space-y-1 text-[var(--color-text)]">
                                     <li><strong>3 abacates</strong> médios (maduros)</li>
                                     <li>2 tomates maduros, sem sementes, picados</li>
                                     <li>1 cebola roxa pequena picada</li>
@@ -169,8 +177,8 @@
                                 </ul>
                             </div>
                             <div class="md:col-span-2">
-                                <h4 class="text-xl font-semibold mb-3 text-amber-600">Preparo (Frescor Total):</h4>
-                                <ol class="list-decimal list-inside space-y-3 text-neutral-700">
+                                <h4 class="text-xl font-semibold mb-3 text-[var(--color-secondary)]">Preparo (Frescor Total):</h4>
+                                <ol class="list-decimal list-inside space-y-3 text-[var(--color-text)]">
                                     <li>Amasse a polpa dos abacates com um garfo, deixando-o rústico.</li>
                                     <li>Misture imediatamente o suco de limão para manter a cor viva.</li>
                                     <li>Adicione a cebola roxa, o tomate e o coentro.</li>
@@ -182,18 +190,18 @@
                     </div>
 
                     <div id="recipe-cheddar" class="recipe-content hidden">
-                        <h3 class="text-2xl sm:text-3xl font-bold text-red-600 mb-4">Cheddar Cremoso Gourmet</h3>
+                        <h3 class="text-2xl sm:text-3xl font-bold text-[var(--color-primary)] mb-4">Cheddar Cremoso Gourmet</h3>
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
                             <div class="md:col-span-1 p-4 bg-neutral-50 rounded-lg">
-                                <h4 class="text-xl font-semibold mb-3 text-amber-600">Ingredientes:</h4>
-                                <ul class="list-disc list-inside space-y-1 text-neutral-700">
+                                <h4 class="text-xl font-semibold mb-3 text-[var(--color-secondary)]">Ingredientes:</h4>
+                                <ul class="list-disc list-inside space-y-1 text-[var(--color-text)]">
                                     <li>400g de queijo cheddar processado (para derreter)</li>
                                     <li>2 caixas de creme de leite (400g total)</li>
                                 </ul>
                             </div>
                             <div class="md:col-span-2">
-                                <h4 class="text-xl font-semibold mb-3 text-amber-600">Preparo (Cremoso e Rendeiro):</h4>
-                                <ol class="list-decimal list-inside space-y-3 text-neutral-700">
+                                <h4 class="text-xl font-semibold mb-3 text-[var(--color-secondary)]">Preparo (Cremoso e Rendeiro):</h4>
+                                <ol class="list-decimal list-inside space-y-3 text-[var(--color-text)]">
                                     <li>Aqueça o creme de leite em fogo baixo (sem ferver).</li>
                                     <li>Adicione o cheddar e mexa continuamente até obter um molho homogêneo.</li>
                                     <li>Sirva imediatamente para aproveitar a cremosidade. Reaqueça se necessário.</li>
@@ -203,19 +211,19 @@
                     </div>
 
                     <div id="recipe-sour-cream" class="recipe-content hidden">
-                        <h3 class="text-2xl sm:text-3xl font-bold text-red-600 mb-4">Sour Cream Caseiro</h3>
+                        <h3 class="text-2xl sm:text-3xl font-bold text-[var(--color-primary)] mb-4">Sour Cream Caseiro</h3>
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
                             <div class="md:col-span-1 p-4 bg-neutral-50 rounded-lg">
-                                <h4 class="text-xl font-semibold mb-3 text-amber-600">Ingredientes:</h4>
-                                <ul class="list-disc list-inside space-y-1 text-neutral-700">
+                                <h4 class="text-xl font-semibold mb-3 text-[var(--color-secondary)]">Ingredientes:</h4>
+                                <ul class="list-disc list-inside space-y-1 text-[var(--color-text)]">
                                     <li>1 pote de creme de leite fresco ou nata (aprox. 300g)</li>
                                     <li>Suco de 1 limão</li>
                                     <li>1 pitada de sal</li>
                                 </ul>
                             </div>
                             <div class="md:col-span-2">
-                                <h4 class="text-xl font-semibold mb-3 text-amber-600">Preparo (Toque Azedinho):</h4>
-                                <ol class="list-decimal list-inside space-y-3 text-neutral-700">
+                                <h4 class="text-xl font-semibold mb-3 text-[var(--color-secondary)]">Preparo (Toque Azedinho):</h4>
+                                <ol class="list-decimal list-inside space-y-3 text-[var(--color-text)]">
                                     <li>Misture o creme de leite/nata com o suco de limão e o sal.</li>
                                     <li>Bata com um batedor para incorporar ar.</li>
                                     <li>Deixe descansar em temperatura ambiente (ou na geladeira) por 30 a 60 minutos para engrossar levemente e desenvolver a acidez.</li>
@@ -226,18 +234,18 @@
                     </div>
 
                     <div id="recipe-torta" class="recipe-content hidden">
-                        <h3 class="text-2xl sm:text-3xl font-bold text-red-600 mb-4">Torta Cremosa de Farofa (Sobremesa Caseira)</h3>
+                        <h3 class="text-2xl sm:text-3xl font-bold text-[var(--color-primary)] mb-4">Torta Cremosa de Farofa (Sobremesa Caseira)</h3>
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
                             <div class="md:col-span-1 p-4 bg-neutral-50 rounded-lg">
-                                <h4 class="text-xl font-semibold mb-3 text-amber-600">Ingredientes:</h4>
-                                <ul class="list-disc list-inside space-y-1 text-neutral-700">
+                                <h4 class="text-xl font-semibold mb-3 text-[var(--color-secondary)]">Ingredientes:</h4>
+                                <ul class="list-disc list-inside space-y-1 text-[var(--color-text)]">
                                     <li><strong>Massa (Farofa):</strong> Farinha, Açúcar e Margarina (ou Manteiga)</li>
                                     <li><strong>Creme:</strong> Leite Condensado (1 lata), Creme de Leite (1 caixa), Leite (1 xícara), Ovos (4 gemas e 2 claras)</li>
                                 </ul>
                             </div>
                             <div class="md:col-span-2">
-                                <h4 class="text-xl font-semibold mb-3 text-amber-600">Preparo (Otimizado):</h4>
-                                <ol class="list-decimal list-inside space-y-3 text-neutral-700">
+                                <h4 class="text-xl font-semibold mb-3 text-[var(--color-secondary)]">Preparo (Otimizado):</h4>
+                                <ol class="list-decimal list-inside space-y-3 text-[var(--color-text)]">
                                     <li><strong>Farofa:</strong> Misture farinha, açúcar e margarina (ou manteiga) até formar uma farofa solta, semelhante a de cuca. Forre o fundo e laterais de uma forma.</li>
                                     <li><strong>Creme:</strong> Misture o Leite Condensado, Leite, gemas e 1 caixa de Creme de Leite. Cozinhe em fogo baixo até engrossar levemente (ponto de brigadeiro mole).</li>
                                     <li><strong>Montagem (Dica do Áudio!):</strong> Derrame o creme <em>ainda quente</em> sobre a farofa. Isso ajuda na textura final da torta.</li>
@@ -254,8 +262,8 @@
 
             <section id="lista-compras" class="tab-content hidden">
                 <div class="content-card p-6 sm:p-8">
-                    <h2 class="text-3xl font-bold text-red-600 mb-6">Sua Lista de Compras (Interativa)</h2>
-                    <p class="mb-8 text-lg text-neutral-600">Marque os itens à medida que os adiciona ao carrinho. O orçamento total (aba 'Orçamento') já inclui o custo de <strong>TODOS os itens</strong> desta lista, calculados para <strong>7 pessoas</strong> no jantar e sobremesa completa.</p>
+                    <h2 class="text-3xl font-bold text-[var(--color-primary)] mb-6">Sua Lista de Compras (Interativa)</h2>
+                    <p class="mb-8 text-lg text-[var(--color-text)]">Marque os itens à medida que os adiciona ao carrinho. O orçamento total (aba 'Orçamento') já inclui o custo de <strong>TODOS os itens</strong> desta lista, calculados para <strong>7 pessoas</strong> no jantar e sobremesa completa.</p>
                     <div id="shopping-list-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     </div>
                 </div>
@@ -263,8 +271,8 @@
 
             <section id="orcamento" class="tab-content hidden">
                 <div class="content-card p-6 sm:p-8">
-                    <h2 class="text-3xl font-bold text-red-600 mb-6">Análise Orçamentária (R$)</h2>
-                    <p class="text-lg mb-8 text-neutral-600">Veja a distribuição dos gastos por categoria. O total inclui a correção de 10% para imprevistos e variações de preço em Videira, SC. Os valores representam o custo total da lista de compras.</p>
+                    <h2 class="text-3xl font-bold text-[var(--color-primary)] mb-6">Análise Orçamentária (R$)</h2>
+                    <p class="text-lg mb-8 text-[var(--color-text)]">Veja a distribuição dos gastos por categoria. O total inclui a correção de 10% para imprevistos e variações de preço em Videira, SC. Os valores representam o custo total da lista de compras.</p>
                     <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
                         <div class="chart-container">
                             <canvas id="budgetChart"></canvas>
@@ -273,18 +281,18 @@
                             
                             <div class="space-y-4 text-lg p-6 bg-neutral-50 rounded-xl shadow-inner">
                                 <div class="flex justify-between pb-2 border-b border-neutral-200">
-                                    <span class="font-medium text-neutral-600">Subtotal Itens:</span>
-                                    <span id="subtotal-value" class="font-bold text-neutral-800">R$ 0,00</span>
+                                    <span class="font-medium text-[var(--color-text)]">Subtotal Itens:</span>
+                                    <span id="subtotal-value" class="font-bold text-[var(--color-text)]">R$ 0,00</span>
                                 </div>
                                 <div class="flex justify-between pb-2 border-b border-neutral-200">
-                                    <span class="font-medium text-neutral-600">Correção (+10% Imprevistos):</span>
-                                    <span id="adjustment-value" class="font-bold text-red-500">R$ 0,00</span>
+                                    <span class="font-medium text-[var(--color-text)]">Correção (+10% Imprevistos):</span>
+                                    <span id="adjustment-value" class="font-bold text-[#B0302F]">R$ 0,00</span>
                                 </div>
-                                <div class="flex justify-between p-4 bg-amber-500 text-white rounded-lg text-2xl shadow-lg">
+                                <div class="flex justify-between p-4 bg-[var(--color-secondary)] text-white rounded-lg text-2xl shadow-lg">
                                     <span class="font-extrabold tracking-wide">TOTAL ESTIMADO:</span>
                                     <span id="total-value" class="font-extrabold">R$ 0,00</span>
                                 </div>
-                                <p class="text-center text-neutral-500 text-base pt-4">Valor por pessoa (<strong>7</strong> convidados): <span id="per-person-value" class="font-bold text-red-600">R$ 0,00</span></p>
+                                <p class="text-center text-neutral-500 text-base pt-4">Valor por pessoa (<strong>7</strong> convidados): <span id="per-person-value" class="font-bold text-[#B0302F]">R$ 0,00</span></p>
                             </div>
                         </div>
                     </div>
@@ -356,8 +364,8 @@
         // 6 categorias agora
         const categoryTotals = [0, 0, 0, 0, 0, 0];
         const categoryLabels = ['Açougue', 'Hortifruti', 'Laticínios', 'Mercearia', 'Padaria & Confeitaria', 'Sobremesa Pronta'];
-        /* New warmer and more harmonious palette */
-        const categoryColors = ['#DC2626', '#16A34A', '#F59E0B', '#D97706', '#EC4899', '#6D28D9']; /* Red, Green, Amber, Orange, Pink, Violet */
+        /* Paleta de Cores do Gráfico (Do Upload) */
+        const categoryColors = ['#B0302F', '#276124', '#CF6A00', '#3575A2', '#B0367F', '#EB8F2C']; 
 
         // Constante para o número de pessoas (agora 7)
         const totalGuests = 7;
@@ -405,7 +413,7 @@
                 categoryDiv.className = 'mb-6 p-4 border border-neutral-200 rounded-xl bg-neutral-50 shadow-sm';
                 
                 const categoryTitle = document.createElement('h3');
-                categoryTitle.className = 'text-xl font-bold text-amber-600 mb-4 border-b border-amber-200 pb-2';
+                categoryTitle.className = 'text-xl font-bold text-[var(--color-secondary)] mb-4 border-b border-neutral-300 pb-2';
                 categoryTitle.textContent = category.category;
                 categoryDiv.appendChild(categoryTitle);
 
@@ -422,7 +430,7 @@
                     const checkbox = document.createElement('input');
                     checkbox.type = 'checkbox';
                     checkbox.checked = item.checked;
-                    checkbox.className = 'h-5 w-5 rounded border-neutral-400 text-red-600 focus:ring-red-500';
+                    checkbox.className = 'h-5 w-5 rounded border-neutral-400 text-[var(--color-primary)] focus:ring-[var(--color-primary)]';
                     checkbox.dataset.catIndex = catIndex;
                     checkbox.dataset.itemIndex = itemIndex;
 
@@ -434,11 +442,11 @@
                     });
 
                     const textSpan = document.createElement('span');
-                    textSpan.className = 'ml-3 flex-1 text-neutral-700';
+                    textSpan.className = 'ml-3 flex-1 text-[var(--color-text)]';
                     textSpan.textContent = `${item.name} (${item.qty})`;
 
                     const priceSpan = document.createElement('span');
-                    priceSpan.className = 'font-semibold text-neutral-600';
+                    priceSpan.className = 'font-semibold text-[var(--color-text)]';
                     priceSpan.textContent = toBRL(item.price);
 
                     label.appendChild(checkbox);
@@ -463,7 +471,7 @@
                         label: 'Custo por Categoria',
                         data: categoryTotals,
                         backgroundColor: categoryColors,
-                        borderColor: '#F9FAFB',
+                        borderColor: 'var(--color-background)',
                         borderWidth: 4,
                         hoverBorderColor: '#fff',
                         hoverBorderWidth: 6
@@ -479,7 +487,8 @@
                                 font: {
                                     family: 'Inter',
                                     size: 14,
-                                }
+                                },
+                                color: 'var(--color-text)'
                             }
                         },
                         tooltip: {
@@ -535,10 +544,10 @@
 
             recipeTabButtons.forEach(button => {
                 button.addEventListener('click', () => {
-                    recipeTabButtons.forEach(btn => btn.classList.remove('active', 'bg-amber-600', 'text-white'));
+                    recipeTabButtons.forEach(btn => btn.classList.remove('active', 'bg-[var(--color-secondary)]', 'text-white'));
                     button.classList.add('active');
                     if (button.classList.contains('active')) {
-                        button.classList.add('bg-amber-600', 'text-white');
+                        button.classList.add('bg-[var(--color-secondary)]', 'text-white');
                     }
 
                     const target = button.getAttribute('data-target');
@@ -552,7 +561,7 @@
             });
             // Initial activation for the first recipe tab
             if (recipeTabButtons.length > 0) {
-                 recipeTabButtons[0].classList.add('bg-amber-600', 'text-white');
+                 recipeTabButtons[0].classList.add('bg-[var(--color-secondary)]', 'text-white');
             }
         }
 
