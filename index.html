@@ -36,6 +36,15 @@
                     boxShadow: {
                         'soft': '0 10px 40px -10px rgba(0,0,0,0.08)',
                         'glow': '0 0 20px rgba(207, 106, 0, 0.15)'
+                    },
+                    keyframes: {
+                        pulseScale: {
+                            '0%, 100%': { transform: 'scale(1)' },
+                            '50%': { transform: 'scale(1.1)' },
+                        }
+                    },
+                    animation: {
+                        pulseScale: 'pulseScale 1s infinite',
                     }
                 }
             }
@@ -84,6 +93,25 @@
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
             border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+
+        /* Price Edit Input */
+        .price-input {
+            width: 80px;
+            padding: 2px 4px;
+            border: 2px solid #CF6A00;
+            border-radius: 4px;
+            font-size: 0.875rem;
+            font-weight: bold;
+            color: #1F2937;
+            outline: none;
+        }
+        
+        /* Long Press Feedback Class */
+        .pressing {
+            transform: scale(1.1);
+            background-color: #FEF3C7 !important; /* Amber-100 */
+            transition: transform 0.2s ease;
         }
     </style>
 </head>
@@ -219,10 +247,11 @@
         <!-- SECTION: LISTA DE COMPRAS -->
         <section id="lista-compras" class="tab-content hidden fade-in">
             <div class="bg-mex-blue/10 rounded-2xl p-4 mb-6 flex items-start gap-3 border border-mex-blue/20">
-                <div class="text-mex-blue text-xl">ℹ️</div>
-                <p class="text-sm text-mex-blue font-medium">
-                    Toque nos itens para riscar. O orçamento total permanece fixo na previsão para 7 pessoas.
-                </p>
+                <div class="text-mex-blue text-xl">💡</div>
+                <div class="text-sm text-mex-blue font-medium">
+                    <p class="mb-1">Toque nos itens para riscar.</p>
+                    <p class="text-xs opacity-80 font-bold uppercase tracking-wide">Nova Funcionalidade: Segure o preço por 1s para editar o valor!</p>
+                </div>
             </div>
             <div id="shopping-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 <!-- Populated by JS -->
@@ -438,31 +467,23 @@
         
         // Navigation
         function switchTab(tabId, btn) {
-            // Hide all sections
             document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
-            // Show target
             document.getElementById(tabId).classList.remove('hidden');
             
-            // Reset nav styles
             document.querySelectorAll('.nav-btn').forEach(el => {
                 el.classList.remove('bg-white', 'shadow-sm', 'text-mex-red');
                 el.classList.add('text-gray-600');
             });
             
-            // Set active nav style
             btn.classList.remove('text-gray-600');
             btn.classList.add('bg-white', 'shadow-sm', 'text-mex-red');
 
-            // Refresh context
             if(tabId === 'orcamento') renderChart();
         }
 
-        // Recipe Renderer
+        // Recipe Renderer (Same as before)
         function renderRecipes() {
             const navContainer = document.getElementById('recipe-nav');
-            const displayContainer = document.getElementById('recipe-display');
-            
-            // Create Nav Buttons
             navContainer.innerHTML = recipes.map((r, i) => `
                 <button onclick="showRecipe('${r.id}')" 
                         class="flex-shrink-0 px-5 py-2 rounded-xl font-bold text-sm transition-all 
@@ -474,15 +495,11 @@
                     ${r.icon} ${r.title}
                 </button>
             `).join('');
-
-            // Initial Render
             showRecipe(recipes[0].id);
         }
 
         function showRecipe(id) {
             const recipe = recipes.find(r => r.id === id);
-            
-            // Update Nav Pills
             document.querySelectorAll('.recipe-pill').forEach(btn => {
                 if(btn.dataset.id === id) {
                     btn.className = `flex-shrink-0 px-5 py-2 rounded-xl font-bold text-sm transition-all ${recipe.bg} text-white shadow-lg ring-2 ring-offset-2 ring-${recipe.color} recipe-pill scale-105`;
@@ -491,7 +508,6 @@
                 }
             });
 
-            // Update Content
             const content = document.getElementById('recipe-display');
             content.innerHTML = `
                 <div class="relative fade-in h-full">
@@ -500,34 +516,76 @@
                     </div>
                     <div class="p-6 sm:p-8 relative z-10">
                         <h2 class="font-display font-bold text-3xl ${recipe.text} mb-6 border-b border-gray-100 pb-4">${recipe.title}</h2>
-                        
                         <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
                             <div>
                                 <h3 class="font-bold text-gray-900 mb-3 uppercase text-sm tracking-wider">Ingredientes</h3>
                                 <ul class="space-y-2">
-                                    ${recipe.ingredients.map(ing => `
-                                        <li class="flex items-start gap-2 text-gray-700 text-sm sm:text-base">
-                                            <span class="${recipe.text} mt-1">•</span>
-                                            <span>${ing}</span>
-                                        </li>
-                                    `).join('')}
+                                    ${recipe.ingredients.map(ing => `<li class="flex items-start gap-2 text-gray-700 text-sm sm:text-base"><span class="${recipe.text} mt-1">•</span><span>${ing}</span></li>`).join('')}
                                 </ul>
                             </div>
                             <div class="bg-gray-50 rounded-2xl p-5 border border-gray-100">
                                 <h3 class="font-bold text-gray-900 mb-3 uppercase text-sm tracking-wider">Modo de Preparo</h3>
                                 <ol class="space-y-4">
-                                    ${recipe.steps.map((step, i) => `
-                                        <li class="flex gap-3 text-sm sm:text-base text-gray-700">
-                                            <span class="flex-shrink-0 w-6 h-6 rounded-full ${recipe.bg} text-white flex items-center justify-center text-xs font-bold">${i+1}</span>
-                                            <p>${step}</p>
-                                        </li>
-                                    `).join('')}
+                                    ${recipe.steps.map((step, i) => `<li class="flex gap-3 text-sm sm:text-base text-gray-700"><span class="flex-shrink-0 w-6 h-6 rounded-full ${recipe.bg} text-white flex items-center justify-center text-xs font-bold">${i+1}</span><p>${step}</p></li>`).join('')}
                                 </ol>
                             </div>
                         </div>
                     </div>
                 </div>
             `;
+        }
+
+        // --- Long Press Logic Variables ---
+        let pressTimer;
+        let isLongPress = false;
+
+        function startPress(element, catIdx, itemIdx) {
+            isLongPress = false;
+            element.classList.add('pressing'); // Visual feedback
+            
+            pressTimer = setTimeout(() => {
+                isLongPress = true;
+                element.classList.remove('pressing');
+                enablePriceEdit(element, catIdx, itemIdx);
+            }, 1000); // 1 second
+        }
+
+        function cancelPress(element) {
+            clearTimeout(pressTimer);
+            element.classList.remove('pressing');
+        }
+
+        function enablePriceEdit(spanElement, catIdx, itemIdx) {
+            const currentPrice = shoppingList[catIdx].items[itemIdx].price;
+            
+            // Replace span with input
+            const input = document.createElement('input');
+            input.type = 'number';
+            input.value = currentPrice;
+            input.className = 'price-input';
+            input.step = '0.01';
+            
+            // Event handler to save on blur or enter
+            input.onblur = function() { savePrice(this, catIdx, itemIdx); };
+            input.onkeydown = function(e) { if(e.key === 'Enter') this.blur(); };
+            
+            // Prevent click propagation to parent LI (toggle checkbox)
+            input.onclick = function(e) { e.stopPropagation(); };
+
+            spanElement.parentNode.replaceChild(input, spanElement);
+            input.focus();
+        }
+
+        function savePrice(inputElement, catIdx, itemIdx) {
+            let newPrice = parseFloat(inputElement.value);
+            if (isNaN(newPrice) || newPrice < 0) newPrice = 0;
+
+            // Update Data
+            shoppingList[catIdx].items[itemIdx].price = newPrice;
+
+            // Re-render to show span again
+            renderShoppingList();
+            calculateBudget();
         }
 
         // Shopping List Renderer
@@ -553,7 +611,16 @@
                                         <span class="text-xs block ${item.checked ? 'text-gray-300' : 'text-gray-400'}">${item.qty}</span>
                                     </span>
                                 </div>
-                                <span class="text-sm font-bold text-gray-900 bg-gray-100 px-2 py-1 rounded whitespace-nowrap ${item.checked ? 'opacity-50' : ''}">${item.price.toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'})}</span>
+                                <span class="text-sm font-bold text-gray-900 bg-gray-100 px-2 py-1 rounded whitespace-nowrap select-none transition-transform duration-200 origin-center ${item.checked ? 'opacity-50' : ''}"
+                                      onmousedown="startPress(this, ${catIdx}, ${itemIdx}); event.stopPropagation();"
+                                      ontouchstart="startPress(this, ${catIdx}, ${itemIdx}); event.stopPropagation();"
+                                      onmouseup="cancelPress(this)"
+                                      onmouseleave="cancelPress(this)"
+                                      ontouchend="cancelPress(this)"
+                                      onclick="event.stopPropagation(); return false;"
+                                >
+                                    ${item.price.toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'})}
+                                </span>
                             </li>
                         `).join('')}
                     </ul>
@@ -564,9 +631,7 @@
         }
 
         function toggleItem(catIdx, itemIdx) {
-            // Toggle state
             shoppingList[catIdx].items[itemIdx].checked = !shoppingList[catIdx].items[itemIdx].checked;
-            // Re-render the list to apply styles immediately
             renderShoppingList();
         }
 
@@ -583,10 +648,9 @@
             const total = subtotal + adjustment;
             const perPerson = total / 7;
 
-            // DOM Updates
             const toCurrency = (val) => val.toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'});
             
-            document.getElementById('total-value').innerText = toCurrency(total).replace('R$', '').trim(); // Big number logic
+            document.getElementById('total-value').innerText = toCurrency(total).replace('R$', '').trim();
             document.getElementById('subtotal-value').innerText = toCurrency(subtotal);
             document.getElementById('adjustment-value').innerText = "+ " + toCurrency(adjustment);
             document.getElementById('per-person-value').innerText = toCurrency(perPerson);
@@ -659,7 +723,6 @@
             });
         }
 
-        // --- INIT ---
         window.addEventListener('DOMContentLoaded', () => {
             renderRecipes();
             renderShoppingList();
